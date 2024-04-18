@@ -46,14 +46,14 @@ yes_folds = (partition(yes_rows, yes_folds, yes_base))
 no_folds = (partition(no_rows, no_folds, no_base))
 
 
-for i in range (0,9):
+for i in range (0,10):
     total_folds[i].extend(yes_folds[i])
     total_folds[i].extend(no_folds[i])
 
 print(total_folds)
 
 f = open("answer.txt", "w")
-for k in range(1, 10):
+for k in range(1, 11):
     f.write("fold" + str(k) + "\n")
     for row in total_folds[k-1]:
         my_string = ",".join(str(element) for element in row)
