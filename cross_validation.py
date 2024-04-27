@@ -96,4 +96,10 @@ def validate_bayes(training_file):
 
 
 if __name__ == "__main__":
-    print(validate_bayes("data/partitioned-occupancy.csv"))
+    print(f"pima bayes: {validate_bayes('data/stratified/pima.csv')}")
+    print(f"pima nn, k=10: {validate_nn('data/stratified/pima.csv', 10)}")
+    print(f"pima nn, k=5: {validate_nn('data/stratified/pima.csv', 5)}")
+    print(f"pima nn, k=2: {validate_nn('data/stratified/pima.csv', 2)}")
+    print(f"pima nn, k=1: {validate_nn('data/stratified/pima.csv', 1)}")
+    print(f"occ bayes: {validate_bayes('data/stratified/occupancy.csv')}")
+    print(f"occ nn, k=10: {validate_nn('data/stratified/occupancy.csv', 10)}")

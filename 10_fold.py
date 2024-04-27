@@ -1,5 +1,5 @@
 
-data_f = open("pima.csv", "r")
+data_f = open("data/norm-occupancy-estimation.csv", "r")
 data = [r.strip().split(",") for r in data_f.readlines()]
 data_f.close()
 
@@ -52,7 +52,7 @@ for i in range (0,10):
 
 print(total_folds)
 
-f = open("answer.txt", "w")
+f = open("data/stratified/occupancy.csv", "w")
 for k in range(1, 11):
     f.write("fold" + str(k) + "\n")
     for row in total_folds[k-1]:
