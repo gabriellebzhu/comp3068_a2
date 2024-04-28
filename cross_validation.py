@@ -1,8 +1,6 @@
 from knn import nn
 from nb import calc_mean_std, nb_test_one_outcome
-import pprint
-
-pp = pprint
+import time
 
 
 def partition(training_file):
@@ -33,16 +31,17 @@ def partition(training_file):
 
 def validate_nn(training_file, k):
     parts = partition(training_file)
+    
 
     if len(parts) == 0:
         return 0
     
+    start = time.time()
     partition_num = len(parts)
     col_num = len(parts[0][0]) - 1
 
     average = 0
     for i in range(partition_num):
-        
         data = []
         for j in range(partition_num):
             if not i == j:
@@ -57,6 +56,7 @@ def validate_nn(training_file, k):
                 correct += 1
         average += correct / float(len(tests))
 
+    print(f"Total build time of model: {time.time()-start:.2f}")
     return average / partition_num
 
 def validate_bayes(training_file):
@@ -65,18 +65,19 @@ def validate_bayes(training_file):
     if len(parts) == 0:
         return 0
 
+    build_duration = 0
     partition_num = len(parts)
-    col_num = len(parts[0][0]) - 1
 
     average = 0
     for i in range(partition_num):
-        
+        start = time.time()
         data = []
         for j in range(partition_num):
             if not i == j:
                 data.extend(parts[j])
         tests = parts[i]
         no_means, yes_means, no_stds, yes_stds, P_yes, P_no = calc_mean_std(data)
+        build_duration += time.time() - start
 
         correct = 0
         for t in tests:
@@ -92,6 +93,7 @@ def validate_bayes(training_file):
                 correct += 1
         average += correct / float(len(tests))
 
+    print(f"Total build time of model: {build_duration:.2f}")
     return average / partition_num
 
 
@@ -103,3 +105,6 @@ if __name__ == "__main__":
     print(f"pima nn, k=1: {validate_nn('data/stratified/pima.csv', 1)}")
     print(f"occ bayes: {validate_bayes('data/stratified/occupancy.csv')}")
     print(f"occ nn, k=10: {validate_nn('data/stratified/occupancy.csv', 10)}")
+    print(f"occ nn, k=5: {validate_nn('data/stratified/occupancy.csv', 5)}")
+    print(f"occ nn, k=2: {validate_nn('data/stratified/occupancy.csv', 2)}")
+    print(f"occ nn, k=1: {validate_nn('data/stratified/occupancy.csv', 1)}")
